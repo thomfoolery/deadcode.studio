@@ -3542,6 +3542,11 @@ tty-browserify@0.0.0:
   resolved "https://registry.yarnpkg.com/tty-browserify/-/tty-browserify-0.0.0.tgz#a157ba402da24e9bf957f9aa69d524eed42901a6"
   integrity sha1-oVe6QC2iTpv5V/mqadUk7tQpAaY=
 
+typed.js@^2.0.10:
+  version "2.0.10"
+  resolved "https://registry.yarnpkg.com/typed.js/-/typed.js-2.0.10.tgz#70a1c1ad11965923bc9e52f851d1891b0ca1316f"
+  integrity sha512-tpK+LRm5FM2GAIWWWogbOc4QRlctS425Ef1PCQKbj/G9wyig+Zt+20eLruK7CBPR+DEl/ou4uSfpwRETCSmk4A==
+
 typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
@@ -3803,3 +3808,8 @@ yargs@13.2.4:
     which-module "^2.0.0"
     y18n "^4.0.0"
     yargs-parser "^13.1.0"
+
+zdog@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/zdog/-/zdog-1.1.0.tgz#88b60a73e5c8a11fcf0c29d28c0339553ffe9566"
+  integrity sha512-PlgvESx/LKMnHbfRdGvpXn/QpoDK6jmO4HyxtydIXcMYt6qr1DMwNsiqJIiU1ibryKEnlFl/JyNrNe9Tk0+Y9w==

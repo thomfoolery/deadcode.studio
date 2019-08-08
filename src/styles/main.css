@@ -1,4 +1,4 @@
-@import url('https://rsms.me/inter/inter-ui.css');
+@import url('./inter-ui.css');
 @import './normalize.css';
 
 * {
@@ -8,14 +8,18 @@
 html {
     overflow: hidden;
 
+    --text-color: #49be53;
     --highlight-color: #00ccff;
 }
 
 body {
-    background-color: black;
-    color: white;
+    background-color: #334433;
+    background-image: linear-gradient(transparent 0, transparent 50%, black 100%);
+    background-repeat: repeat;
+    /* background-size: 7.5vh; */
+
+    color: var(--text-color);
     font-family: 'Inter UI', Arial, Helvetica, sans-serif;
-    transition: background-color 200ms linear;
 
     display: flex;
     place-content: center;
@@ -24,6 +28,7 @@ body {
     width: 100vw;
     height: 100vh;
     overflow: hidden;
+    box-shadow: inset 0 0 50vmax black;
 }
 
 a {
@@ -37,11 +42,25 @@ a:hover {
     color: var(--highlight-color);
 }
 
-h1 {
+#console {
     margin: 0;
-    color: var(--highlight-color);
+    color: var(--text-color);
+    text-shadow: 0 0 0.1em var(--text-color);
 
-    font-size: 20vmax;
+    font-size: 15vmax;
+    font-weight: 800;
+    line-height: 0.725em;
     letter-spacing: -0.15em;
-    line-height: 0.7em;
+
+    opacity: 0.5;
+
+    user-select: none;
+}
+
+#canvas {
+    margin-right: 0.1em;
+}
+
+.hide {
+    display: none;
 }
