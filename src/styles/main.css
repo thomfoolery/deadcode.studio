@@ -1,0 +1,47 @@
+@import url('https://rsms.me/inter/inter-ui.css');
+@import './normalize.css';
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    overflow: hidden;
+
+    --highlight-color: #00ccff;
+}
+
+body {
+    background-color: black;
+    color: white;
+    font-family: 'Inter UI', Arial, Helvetica, sans-serif;
+    transition: background-color 200ms linear;
+
+    display: flex;
+    place-content: center;
+    align-items: center;
+
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+a {
+    color: white;
+    text-decoration: none;
+    transition: color 100ms linear;
+}
+
+a:focus,
+a:hover {
+    color: var(--highlight-color);
+}
+
+h1 {
+    margin: 0;
+    color: var(--highlight-color);
+
+    font-size: 20vmax;
+    letter-spacing: -0.15em;
+    line-height: 0.7em;
+}
