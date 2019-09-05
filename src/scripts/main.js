@@ -4,17 +4,24 @@ import typed from 'typed.js'
 // querySelector shortcut
 const $ = document.querySelector.bind(document)
 
-const DELAY = 0
+const loop = false
 const typeSpeed = 100
+const backSpeed = 100
+const backDelay = 2500
 const startDelay = 2500
 
 const OPTIONS = {
-  stringsElement: `#intro`,
+  loop,
   typeSpeed,
+  backSpeed,
+  backDelay,
   startDelay,
   cursorChar: '_',
   smartBackspace: true,
-}
+};
 
 // typedJS options
-setTimeout(() => new typed(`#canvas`, OPTIONS), DELAY)
+new typed(`#console-canvas`, {
+  ...OPTIONS,
+  stringsElement: `#intro`,
+})
