@@ -1,0 +1,50 @@
+.ConsoleInput {
+  overflow: hidden;
+}
+
+.ConsoleInputTextArea,
+.ConsoleInputFacade {
+  width: 100%;
+  height: 1em;
+
+  padding: 0;
+  border: none;
+
+  box-shadow: none;
+  outline: none;
+  background: transparent;
+
+  color: limegreen;
+  text-shadow: 0 0 0.3em limegreen;
+
+  font-family:
+    source-code-pro,
+    Menlo,
+    Monaco,
+    Consolas,
+    "Courier New",
+    monospace;
+  font-size: 1.5vw;
+
+  pointer-events: none;
+
+}
+
+.ConsoleInputFacade > * {
+  height: 0;
+  line-break: anywhere;
+  white-space: pre-wrap;
+}
+
+.ConsoleInputTextArea {
+  position: absolute;
+  pointer-events: none;
+  caret-color: transparent;
+  opacity: 0;
+}
+
+.ConsoleInputCursor,
+.ConsoleInput::selection {
+  background: limegreen;
+  color: black;
+}

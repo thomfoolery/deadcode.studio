@@ -1,0 +1,32 @@
+.ConsoleLine {
+  display: block;
+  position: relative;
+  min-height: 1em;
+  line-height: 1em;
+
+  margin: 0.25em 0;
+}
+
+.isCommandLine {
+  padding-left: 1em;
+}
+
+.isCommandLine:before {
+  content: '';
+  display: block;
+  width: 0.5em;
+  height: 0.5em;
+
+  border-top: 0.15em solid limegreen;
+  border-right: 0.15em solid limegreen;
+
+  position: absolute;
+  left: 0;
+  top: 50%;
+
+  transform:
+    translate3d(0, -50%, 0)
+    rotate(45deg);
+  transform-origin: center;
+
+}
