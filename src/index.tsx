@@ -4,14 +4,19 @@ import {BrowserRouter} from 'react-router-dom';
 
 import './index.css';
 
+import { Story } from 'inkjs/dist/ink';
+import storyJson from './ink/intro.ink.json';
+
 import Root from './components/Root';
 import * as serviceWorker from './serviceWorker';
 
 const mountTarget = document.getElementById('root');
 
+const storyEngine = new Story(storyJson)
+
 ReactDOM.render(
   <BrowserRouter>
-    <Root/>
+    <Root storyEngine={storyEngine}/>
   </BrowserRouter>,
   mountTarget
 );

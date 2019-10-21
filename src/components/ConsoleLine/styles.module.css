@@ -1,32 +1,53 @@
 .ConsoleLine {
   display: block;
   position: relative;
-  min-height: 1em;
   line-height: 1em;
 
   margin: 0.25em 0;
+
+  font-size: inherit;
+  text-shadow: 0 0 1rem limegreen;
+
+  white-space: pre;
+}
+
+.ConsoleLine:empty {
+  min-height: 1em;
 }
 
 .isCommandLine {
-  padding-left: 1em;
+  padding-left: 0.75em;
 }
 
-.isCommandLine:before {
-  content: '';
-  display: block;
-  width: 0.5em;
-  height: 0.5em;
-
-  border-top: 0.15em solid limegreen;
-  border-right: 0.15em solid limegreen;
-
+.isCommandLine::before {
+  content: '>';
   position: absolute;
   left: 0;
-  top: 50%;
+}
 
-  transform:
-    translate3d(0, -50%, 0)
-    rotate(45deg);
-  transform-origin: center;
+.white,
+.isUser {
+  color: white;
+}
 
+.isCommandLine.white:before {
+  border-top-color: white;
+  border-right-color: white;
+}
+
+.yellow {
+  color: yellow;
+}
+
+.purple {
+  color: fuchsia;
+}
+
+.isCommandLine.yellow:before {
+  border-top-color: yellow;
+  border-right-color: yellow;
+}
+
+.ConsoleLine:global(.textCenter) {
+  text-align: center;
 }

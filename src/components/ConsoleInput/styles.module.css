@@ -1,4 +1,5 @@
 .ConsoleInput {
+  min-height: 5em;
   overflow: hidden;
 }
 
@@ -14,17 +15,18 @@
   outline: none;
   background: transparent;
 
-  color: limegreen;
+  color: white;
   text-shadow: 0 0 0.3em limegreen;
 
+  font-size: inherit;
   font-family:
+    console,
     source-code-pro,
     Menlo,
     Monaco,
     Consolas,
     "Courier New",
     monospace;
-  font-size: 1.5vw;
 
   pointer-events: none;
 
@@ -39,12 +41,38 @@
 .ConsoleInputTextArea {
   position: absolute;
   pointer-events: none;
-  caret-color: transparent;
   opacity: 0;
+  caret-color: transparent;
 }
 
 .ConsoleInputCursor,
 .ConsoleInput::selection {
-  background: limegreen;
+  position: relative;
+  background: white;
   color: black;
+  text-shadow: none;
+}
+
+.ConsoleInputCursor {
+  padding: 1px;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0% {
+    background: white;
+    color: black;
+  }
+  50% {
+    background: white;
+    color: black;
+  }
+  51% {
+    background: transparent;
+    color: white;
+  }
+  100% {
+    background: transparent;
+    color: white;
+  }
 }

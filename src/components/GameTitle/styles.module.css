@@ -1,0 +1,44 @@
+.GameTitle {
+  display: block;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+
+  line-height: 1em;
+
+  font-size: 15vw;
+  font-family: console, source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+  text-shadow: 0 0 1rem limegreen;
+  text-align: center;
+
+  white-space: pre;
+
+  transform: translate3d(-50%,-50%,0);
+}
+
+.GameTitle > :global( *) {
+  animation: fade-out 10s ease-in-out both;
+}
+
+.GameTitle > :global(* + *) {
+  animation-delay: 200ms;
+}
+
+@keyframes fade-out {
+  0% {
+    opacity: 0;
+    transform: translate3d(0,50vh, 0);
+  }
+  33% {
+    opacity: 1;
+    transform: translate3d(0,0, 0);
+  }
+  66% {
+    opacity: 1;
+    transform: translate3d(0,0, 0);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(0,-50vh, 0);
+  }
+}

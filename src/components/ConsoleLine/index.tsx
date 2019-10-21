@@ -1,22 +1,45 @@
 import React, {ReactNode, useEffect} from 'react';
 
-import {ConsoleEntryTypes} from '../../types';
+import {ConsoleEntryTypes} from '../../reducers/console';
 
 import styles from './styles.module.css';
 
 export interface Props {
   type: ConsoleEntryTypes;
   children?: ReactNode;
-  content?: any;
   next?(): void;
+  content?: any;
+  options?: any;
 };
 
-function ConsoleLine({type, children, content = '', next = () => undefined}: Props) {
-  const classes = type === ConsoleEntryTypes.Command ?
-    [styles.ConsoleLine, styles.isCommandLine] :
-    [styles.ConsoleLine]
+const noop = () => undefined;
 
-  useEffect(next, [next]);
+function ConsoleLine({
+  type,
+  children,
+  next = noop,
+  content = ' ',
+  options = {},
+}: Props) {
+  const { classNames = [] } = options;
+  const isUserContent = content.startsWith('User:');
+  const classes = [styles.ConsoleLine, ...classNames];
+
+  if (type === ConsoleEntryTypes.Command) {
+    classes.push(styles.isCommandLine);
+  }
+  if (options.color) {
+    classes.push(styles[options.color]);
+  }
+  if (isUserContent) {
+    classes.push(styles.isUser);
+  }
+
+  useEffect(() => {
+    if (type !== ConsoleEntryTypes.Command) {
+      setTimeout(next, options.delay || 0);
+    }
+  }, []);
 
   return (
     <code className={classes.join(' ')}>
@@ -25,4 +48,4 @@ function ConsoleLine({type, children, content = '', next = () => undefined}: Pro
   );
 }
 
-export default ConsoleLine;
+export default React.memo(ConsoleLine);

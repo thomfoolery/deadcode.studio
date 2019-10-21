@@ -1,30 +1,36 @@
 import React, {useEffect, useState, useRef} from 'react';
-import {ActionTypes, IAction} from '../../reducers/console';
+import {ConsoleEntryTypes} from '../../reducers/console';
+
+import ConsoleLine from '../ConsoleLine';
+
 import styles from './styles.module.css';
 
 interface ConsoleInputProps {
-  dispatch(action: IAction): void;
+  next(cmd: string): void;
+  isConsoleFocused: boolean;
 };
 
-const ConsoleInput = React.memo(({dispatch}: ConsoleInputProps) => {
-  const inputElement = useRef<HTMLTextAreaElement>(null);
+const ConsoleInput = React.memo(({ next, isConsoleFocused }: ConsoleInputProps) => {
+  const inputRef = useRef<HTMLTextAreaElement>(null);
 
   const [selectionStart, setSelectionStart] = useState(0);
   const [selectionEnd, setSelectionEnd] = useState(0);
   const [inputValue, setInputValue] = useState('');
 
   function handleChange() {
-    if (!inputElement || !inputElement.current){ return; }
-
-    setInputValue(inputElement.current.value);
+    if (inputRef.current) {
+      setInputValue(inputRef.current.value);
+    }
   };
 
   function handleKeyUp(e: any) {
-    if (!inputElement || !inputElement.current){ return; }
+    if (!inputRef || !inputRef.current){ return; }
 
-    let {selectionStart} = inputElement.current;
-    let {selectionEnd} = inputElement.current;
-    let {value} = inputElement.current;
+    let {
+      selectionStart,
+      selectionEnd,
+      value
+    } = inputRef.current;
 
     setSelectionStart(selectionStart || 0);
     setSelectionEnd(selectionEnd || 0);
@@ -33,29 +39,23 @@ const ConsoleInput = React.memo(({dispatch}: ConsoleInputProps) => {
     if (e.type === 'keyup'
       && e.key === 'Enter'
       && !e.metaKey) {
-        const {value} = inputElement.current;
 
-        setSelectionStart(0);
-        setSelectionEnd(0);
-        setInputValue('');
-
-        dispatch({
-          type: ActionTypes.AppendCommandToEntries,
-          payload: value
-        });
+      next(inputRef.current.value.trim());
+      setSelectionStart(0);
+      setSelectionEnd(0);
+      setInputValue('');
     }
-  }
-
-  function handleFocus() {
-    if (!inputElement || !inputElement.current){ return; }
-
-    inputElement.current.focus();
   }
 
   useEffect(() => {
     document.addEventListener('keydown', handleFocus);
     return () => document.removeEventListener('keydown', handleFocus);
-  }, []);
+    function handleFocus() {
+      if (isConsoleFocused && inputRef.current) {
+        inputRef.current.focus();
+      }
+    }
+  }, [isConsoleFocused]);
 
   const start = selectionStart
   const end = selectionStart === selectionEnd ? selectionEnd + 1 : selectionEnd;
@@ -67,20 +67,26 @@ const ConsoleInput = React.memo(({dispatch}: ConsoleInputProps) => {
 
   return (
     <div className={styles.ConsoleInput}>
-      <textarea
-        autoFocus
-        value={inputValue}
-        ref={inputElement}
-        onKeyUp={handleKeyUp}
-        onKeyDown={handleKeyUp}
-        onChange={handleChange}
-        className={styles.ConsoleInputTextArea}
-      />
-      <div className={styles.ConsoleInputFacade}>
-        <span>{a}</span>
-        <span className={styles.ConsoleInputCursor}>{b}</span>
-        <span>{c}</span>
-      </div>
+      <ConsoleLine
+        options={{color: 'white'}}
+        type={ConsoleEntryTypes.Command}
+      >
+        <textarea
+          autoFocus
+          ref={inputRef}
+          spellCheck={false}
+          value={inputValue}
+          onKeyUp={handleKeyUp}
+          onKeyDown={handleKeyUp}
+          onChange={handleChange}
+          className={styles.ConsoleInputTextArea}
+        />
+        <div className={styles.ConsoleInputFacade}>
+          <span>{a}</span>
+          <span className={styles.ConsoleInputCursor}>{b}</span>
+          <span>{c}</span>
+        </div>
+      </ConsoleLine>
     </div>
   )
 });

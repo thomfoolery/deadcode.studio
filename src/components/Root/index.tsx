@@ -1,28 +1,30 @@
-import React, {useReducer} from 'react';
-import {stateReducer, defaultState} from '../../reducers/console';
+import React from 'react';
 
-import Orchestrator from '../Orchestrator';
+import Game from '../Game';
 import Console from '../Console';
 
-import initialPage from '../../data/0-start.js';
+interface IProps {
+  storyEngine: any;
+}
 
-function Root() {
-  const [state, dispatch] = useReducer(stateReducer, defaultState);
-  const {consoleEntries} = state;
-
+function Render(next, state) {
   return (
-    <Orchestrator
-      dispatch={dispatch}
-      initialPage={initialPage}>
-      {
-        (next) => (
-          <Console
-            next={next}
-            dispatch={dispatch}
-            entries={consoleEntries}/>
-        )
-      }
-    </Orchestrator>
+    <Console
+      next={next}
+      isConsoleFocused={true}
+      choices={state.choices}
+      entries={state.consoleEntries}
+    />
+  )
+}
+
+function Root({ storyEngine }: IProps) {
+  return (
+    <div style={{ display: 'flex' }}>
+      <Game storyEngine={storyEngine}>
+        {Render}
+      </Game>
+    </div>
   );
 }
 

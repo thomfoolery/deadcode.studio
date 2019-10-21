@@ -1,15 +1,15 @@
 .Console {
+  position: relative;
   display: flex;
-  flex: 1 1 auto;
+  flex: 1 1 50%;
   flex-direction: column;
   justify-content: flex-end;
 
+  font-size: 2vw;
+
   max-height: calc(100vh - 2em);
-  margin: 1em;
+  padding: 1em;
 
   color: limegreen;
-  text-shadow: 0 0 0.3em limegreen;
-
-  font-size: 1.5vw;
   overflow: hidden;
 }

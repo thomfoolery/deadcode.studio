@@ -1,27 +1,48 @@
 import React from 'react';
-import {IConsoleBufferEntry} from '../../types';
+import {IConsoleEntry, ConsoleEntryTypes} from '../../reducers/console';
 
+import GameTitle from '../GameTitle';
 import ConsoleLine from '../ConsoleLine';
+
+const presentations = {
+  GameTitle,
+}
 
 export interface Props {
   next(): void;
-  entries?: IConsoleBufferEntry[];
+  entries?: IConsoleEntry[];
 };
 
 function ConsoleBlock({next, entries}: Props) {
   return (
     <>
       {
-        entries && entries.map(({type, content}, i) => (
-          <ConsoleLine
-            type={type}
-            next={next}
-            key={`${i}`}
-            content={content}/>
-        ))
+        entries && entries.map((entry, i) => {
+          const { type, content } = entry;
+
+          if (type === ConsoleEntryTypes.Special) {
+            const parts = content.trim().split(' ');
+            const componentName = parts[parts.length - 1];
+            const Component = presentations[componentName];
+
+            return (
+              <Component
+                next={next}
+                key={`${i}-${content}`}
+              />
+            );
+          }
+          return (
+            <ConsoleLine
+              {...entry}
+              next={next}
+              key={`${i}-${content}`}
+            />
+          )
+        })
       }
     </>
   )
 }
 
-export default ConsoleBlock;
+export default React.memo(ConsoleBlock);

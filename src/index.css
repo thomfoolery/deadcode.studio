@@ -1,10 +1,18 @@
 @import-normalize;
 
+@font-face {
+  font-family: console;
+  src: url(/amstradpc1512-2y.woff2) format('woff2'); /* Safari, Android, iOS */
+  font-weight: normal;
+  font-style: normal;
+}
+
 body {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
 
+  background-color: black;
 
   height: 100vh;
   overflow: hidden;
@@ -12,11 +20,15 @@ body {
   margin: 0;
 
   font-size: 10px;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+  font-family:  -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+body > * {
+  flex: 1;
 
   background-color: #334433;
   background-image:
@@ -32,15 +44,14 @@ body {
   background-attachment: fixed;
 
   box-shadow: inset 0 0 50vmax black;
-}
 
-body > * {
-  flex: 1;
+  margin: 1vw;
+  border-radius: 1vw;
 }
-
 
 code {
   font-family:
+    console,
     source-code-pro,
     Menlo,
     Monaco,
@@ -52,6 +63,8 @@ code {
 #root {
   display: flex;
   flex-direction: column;
+  max-height: 100vh;
+  overflow: hidden;
 }
 
 #root > * {

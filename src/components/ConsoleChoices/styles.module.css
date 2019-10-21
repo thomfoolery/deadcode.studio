@@ -1,0 +1,22 @@
+.container {
+  min-height: 5em;
+  margin-top: 1.5em;
+}
+
+.hiddenInput {
+  position: absolute;
+  left: -999rem;
+}
+
+.hiddenInput[type=radio] + * {
+  opacity: 0.5;
+  transition: opacity 150ms linear;
+}
+
+.hiddenInput[type=radio]:checked + * {
+  opacity: 1;
+}
+
+.hiddenInput[type=radio]:not(:checked) + * {
+  margin-left: 0.75em;
+}
