@@ -1,18 +1,16 @@
-import React, {ReactNode, useEffect} from 'react';
+import React, {ReactNode, useEffect, useContext} from 'react';
+import { ConsoleEntryTypes } from '../../reducers/console';
 
-import {ConsoleEntryTypes} from '../../reducers';
+import { GameControllerContext } from '../GameController';
 
 import styles from './styles.module.css';
 
 export interface Props {
   type: ConsoleEntryTypes;
   children?: ReactNode;
-  next?(): void;
   content?: any;
   options?: any;
 };
-
-const noop = () => undefined;
 
 function split(content)  {
   return content.split('').map((char, i) =>
@@ -29,10 +27,11 @@ function split(content)  {
 function ConsoleLine({
   type,
   children,
-  next = noop,
   options = {},
   content = ' ',
 }: Props) {
+  const { next } = useContext(GameControllerContext);
+
   const { classNames = [] } = options;
   const isUserContent = content.startsWith('User:');
   const classes = [styles.ConsoleLine, ...classNames];

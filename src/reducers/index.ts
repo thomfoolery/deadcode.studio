@@ -1,111 +1,36 @@
-import { executeConsoleCommand } from './console-commands';
+import {
+  IConsoleState,
+  stateReducer as consoleStateReducer,
+  defaultState as consoleDefaultState,
+} from './console';
 
-export enum GameState {
-  GameTitle,
-  GamePaused,
-  GamePlaying,
-}
+import {
+  IGameState,
+  stateReducer as gameStateReducer,
+  defaultState as gameDefaultState,
+} from './game';
 
-export enum ActionTypes {
-  SetIsConsoleEnabled = 'SetIsConsoleEnabled',
-  ExecuteCommand = 'ExecuteCommand',
-  AppendToConsole = 'AppendToConsole',
-  AppendToBuffer = 'AppendToBuffer',
-  AdvanceBuffer = 'AdvanceBuffer',
-  UpdateSelectedChoice = 'UpdateSelectedChoice',
-  SetChoices = 'SetChoices',
-  Reset = 'Reset',
-}
+export { GameActionTypes } from './game';
+export { ConsoleActionTypes } from './console';
 
 export interface IAction {
-  type: ActionTypes;
+  type: any;
   payload?: any;
 }
 
-export enum ConsoleEntryTypes {
-  Output = 'output',
-  Command = 'command',
-  Special = 'special',
+export interface IState {
+  game: IGameState;
+  console: IConsoleState;
 }
 
-export interface IConsoleEntry {
-  type: ConsoleEntryTypes;
-  content: string;
-  options?: any;
-  tags?: any;
-}
-
-export interface IChoice {
-  isSelected: boolean;
-  content: string;
-  index: number;
-}
-
-export interface IGameState {
-  gameState: GameState;
-  choices: IChoice[],
-  commandBuffer: string[];
-  consoleBuffer: IConsoleEntry[];
-  consoleEntries: IConsoleEntry[];
-}
-
-export const defaultState: IGameState = {
-  choices: [],
-  commandBuffer: [],
-  consoleBuffer: [],
-  consoleEntries: [],
-  gameState: GameState.GameTitle,
+export const defaultState: IState = {
+  game: gameDefaultState,
+  console: consoleDefaultState,
 };
 
-export function stateReducer(state: IGameState, action: IAction) {
-  switch(action.type) {
-
-    case ActionTypes.Reset:
-      return defaultState;
-
-    case ActionTypes.ExecuteCommand:
-      return executeConsoleCommand(state, action.payload);
-
-    case ActionTypes.AppendToConsole: {
-      return {
-        ...state,
-        consoleEntries: state.consoleEntries.concat(action.payload),
-      };
-    }
-
-    case ActionTypes.AppendToBuffer: {
-      const firstBufferEntry = action.payload[0];
-      const bufferEntries = action.payload.slice(1);
-
-      return {
-        ...state,
-        consoleBuffer: state.consoleBuffer.concat(bufferEntries),
-        consoleEntries: state.consoleEntries.concat(firstBufferEntry),
-      };
-    }
-
-    case ActionTypes.AdvanceBuffer: {
-      if (state.consoleBuffer.length === 0) {
-        return state
-      }
-
-      const bufferEntry = state.consoleBuffer[0];
-      const updatedConsoleBuffer = state.consoleBuffer.slice(1);
-
-      return {
-        ...state,
-        consoleBuffer: updatedConsoleBuffer,
-        consoleEntries: state.consoleEntries.concat(bufferEntry),
-      };
-    }
-
-    case ActionTypes.SetChoices:
-        return {
-          ...state,
-          choices: action.payload,
-        };
-
-    default:
-      return state;
+export function stateReducer(state: IState, action: IAction) {
+  return {
+    game: gameStateReducer(state.game, action),
+    console: consoleStateReducer(state.console, action),
   }
 }

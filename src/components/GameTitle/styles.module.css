@@ -6,6 +6,7 @@
 
   line-height: 1em;
 
+  color: limegreen;
   font-size: 15vw;
   font-family: console, source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
   text-shadow: 0 0 1rem limegreen;
@@ -16,15 +17,25 @@
   transform: translate3d(-50%,-50%,0);
 }
 
+.GameTitle :global(small) {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate3d(-50%,-50%,0);
+
+    font-size: 2rem;
+    animation: cta 3s ease-in-out both 8s;
+}
+
 .GameTitle > :global( *) {
-  animation: fade-out 10s ease-in-out both;
+  animation: title 10s ease-in-out both;
 }
 
 .GameTitle > :global(* + *) {
   animation-delay: 200ms;
 }
 
-@keyframes fade-out {
+@keyframes title {
   0% {
     opacity: 0;
     transform: translate3d(0,50vh, 0);
@@ -40,5 +51,14 @@
   100% {
     opacity: 0;
     transform: translate3d(0,-50vh, 0);
+  }
+}
+
+@keyframes cta {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }

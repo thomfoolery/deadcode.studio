@@ -1,14 +1,14 @@
-import React, {useEffect, useState, useRef, useContext} from 'react';
-import {ConsoleEntryTypes} from '../../reducers';
+import React, { useEffect, useState, useRef, useContext } from 'react';
+import { ConsoleEntryTypes } from '../../reducers/console';
 
 import ConsoleLine from '../ConsoleLine';
 
 import styles from './styles.module.css';
 import { GameControllerContext } from '../GameController';
 
-interface IProps {};
+// interface IProps {};
 
-const ConsoleInput = React.memo(({}: IProps) => {
+const ConsoleInput = React.memo(() => {
   const { next } = useContext(GameControllerContext);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 

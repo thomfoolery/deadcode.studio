@@ -1,27 +1,31 @@
 import React, { useEffect, useContext } from 'react';
+
+import { GameActionTypes} from '../../reducers';
+import { GameState } from '../../reducers/game';
 import { GameControllerContext } from '../GameController';
+
 import styles from './styles.module.css';
 
-interface IProps {}
-
-function GameTitle({}: IProps) {
-  const { next, setIsConsoleEnabled, } = useContext(GameControllerContext);
+function GameTitle() {
+  const { next, dispatch } = useContext(GameControllerContext);
 
   useEffect(() => {
     document.addEventListener('keypress', handleKeyPress);
     return () => document.removeEventListener('keypress', handleKeyPress);
-    function handleKeyPress(e) {
-      if (e.key === 'Enter') {
-        next();
-        setIsConsoleEnabled(true);
-      }
+    function handleKeyPress() {
+      dispatch({
+        type: GameActionTypes.SetGameState,
+        payload: GameState.GamePlaying,
+      });
+      next();
     }
-  }, [next, setIsConsoleEnabled]);
+  }, []);
 
   return (
     <div className={styles.GameTitle}>
       <div>DEAD</div>
       <div>CODE</div>
+      <small>Press ENTER</small>
     </div>
   )
 }

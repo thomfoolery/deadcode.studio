@@ -1,5 +1,5 @@
 import React from 'react';
-import {IConsoleEntry} from '../../reducers';
+import { IConsoleEntry } from '../../reducers/console';
 
 import ConsoleBlock from '../ConsoleBlock';
 import ConsoleInput from '../ConsoleInput';

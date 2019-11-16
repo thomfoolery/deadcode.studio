@@ -1,46 +1,50 @@
+
+
 import React, {
-  useEffect,
   useReducer,
   useCallback,
-  ReactElement,
 } from 'react';
 
 import {
+  IAction,
   stateReducer,
   defaultState,
-  ActionTypes,
-  IGameState,
+  ConsoleActionTypes,
 } from '../../reducers';
 
 import DevTools from '../DevTools';
-import { getEntry } from './utils';
+import Console from '../Console';
+import GameTitle from '../GameTitle';
 
-interface IProps {
-  storyEngine: any;
-  children(state: IGameState): ReactElement | null;
-}
+import { getEntry } from './utils';
+import { storyEngine } from './ink-story';
+import { GameState } from '../../reducers/game';
+
+const MAX_ENTRIES_LENGTH = 100;
 
 interface IGameControllerContext {
-  setIsConsoleEnabled(isEnabled: boolean): void;
-  next(index?: number | string): void;
+  state: any;
   storyEngine: any;
+  dispatch(action: IAction): void;
+  next(index?: number | string): void;
 }
 
 export const GameControllerContext = React.createContext<IGameControllerContext>({
-  setIsConsoleEnabled: () => null,
-  next: () => null,
   storyEngine: {},
+  dispatch: () => null,
+  next: () => null,
+  state: {},
 });
 
-function GameController({ storyEngine, children }: IProps) {
+function GameController() {
   const [state, dispatch] = useReducer(stateReducer, defaultState);
 
   const next = useCallback((input?: number | string) => {
     if (typeof input == 'number') {
       storyEngine.ChooseChoiceIndex(input);
       dispatch({
-        type: ActionTypes.SetChoices,
-        payload: null,
+        type: ConsoleActionTypes.SetChoices,
+        payload: [],
       });
     }
 
@@ -52,26 +56,29 @@ function GameController({ storyEngine, children }: IProps) {
       ) return;
 
       dispatch({
-        type: ActionTypes.ExecuteCommand,
+        type: ConsoleActionTypes.ExecuteCommand,
         payload: input,
       });
     }
 
-    if (state.consoleBuffer.length > 0) {
-      dispatch({ type: ActionTypes.AdvanceBuffer });
+    if (state.console.consoleBuffer.length > 0) {
+      dispatch({ type: ConsoleActionTypes.AdvanceBuffer });
     }
     else {
       const entry = getEntry(storyEngine);
 
       if (entry) {
         dispatch({
-          type: ActionTypes.AppendToBuffer,
+          type: ConsoleActionTypes.AppendToBuffer,
           payload: [entry],
         });
       }
-      else if (state.choices === null && storyEngine.currentChoices.length > 0) {
+      else if (
+        state.console.choices.length === 0 &&
+        storyEngine.currentChoices.length > 0
+      ) {
         dispatch({
-          type: ActionTypes.SetChoices,
+          type: ConsoleActionTypes.SetChoices,
           payload: storyEngine.currentChoices,
         });
       }
@@ -79,17 +86,26 @@ function GameController({ storyEngine, children }: IProps) {
   }, [storyEngine]);
 
   const gameControllerContext: IGameControllerContext = {
-    setIsConsoleEnabled: (payload) => {
-      dispatch({ type: ActionTypes.SetIsConsoleEnabled, payload });
-    },
     storyEngine,
+    dispatch,
+    state,
     next,
   };
 
   return (
     <GameControllerContext.Provider value={gameControllerContext}>
-      <DevTools dispatch={dispatch}/>
-      {children(state)}
+      <DevTools/>
+      {
+       state.game.state === GameState.GameTitle &&
+        <GameTitle/>
+      }
+      {
+        state.game.state === GameState.GamePlaying &&
+        <Console
+          choices={state.console.choices}
+          entries={state.console.consoleEntries.slice(MAX_ENTRIES_LENGTH * -1)}
+        />
+      }
     </GameControllerContext.Provider>
   );
 }

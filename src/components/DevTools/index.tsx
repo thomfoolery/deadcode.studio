@@ -1,16 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react';
 
 import styles from './styles.module.css';
-import { ActionTypes, IAction } from '../../reducers';
+import { ConsoleActionTypes } from '../../reducers';
 import { GameControllerContext } from '../GameController';
 
-interface IProps {
-  dispatch(action: IAction): void,
-}
-
-function DevTools({ dispatch }: IProps) {
+function DevTools() {
+  const { next, state, dispatch, storyEngine } = useContext(GameControllerContext);
   const [isOpen, setIsOpen] = useState(false);
-  const { next, storyEngine } = useContext(GameControllerContext);
 
   useEffect(() => {
     document.addEventListener('keydown', handleKeyDown);
@@ -29,7 +25,7 @@ function DevTools({ dispatch }: IProps) {
   }
 
   const handleClickRestart = () => {
-    dispatch({ type: ActionTypes.Reset });
+    dispatch({ type: ConsoleActionTypes.Reset });
     storyEngine.ResetState();
     next();
   }
@@ -59,7 +55,8 @@ function DevTools({ dispatch }: IProps) {
       <div>
         <pre>
           <code>
-            { JSON.stringify(JSON.parse(storyEngine.state.toJson()), null, 2) }
+            {/* { JSON.stringify(JSON.parse(storyEngine.state.toJson()), null, 2) } */}
+            { JSON.stringify(state, null, 2) }
           </code>
         </pre>
       </div>

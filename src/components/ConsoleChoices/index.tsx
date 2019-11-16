@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState, useContext } from 'react';
-import {ConsoleEntryTypes, IChoice} from '../../reducers';
+import { ConsoleEntryTypes, IChoice } from '../../reducers/console';
 
 import ConsoleLine from '../ConsoleLine';
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import {IConsoleEntry, ConsoleEntryTypes} from '../../reducers';
+import {IConsoleEntry, ConsoleEntryTypes} from '../../reducers/console';
 
 import GameTitle from '../GameTitle';
 import ConsoleLine from '../ConsoleLine';
