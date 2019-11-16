@@ -1,5 +1,5 @@
 import React from 'react';
-import {IConsoleEntry, ConsoleEntryTypes} from '../../reducers/console';
+import {IConsoleEntry, ConsoleEntryTypes} from '../../reducers';
 
 import GameTitle from '../GameTitle';
 import ConsoleLine from '../ConsoleLine';
@@ -9,11 +9,10 @@ const presentations = {
 }
 
 export interface Props {
-  next(): void;
   entries?: IConsoleEntry[];
 };
 
-function ConsoleBlock({next, entries}: Props) {
+function ConsoleBlock({entries}: Props) {
   return (
     <>
       {
@@ -27,7 +26,6 @@ function ConsoleBlock({next, entries}: Props) {
 
             return (
               <Component
-                next={next}
                 key={`${i}-${content}`}
               />
             );
@@ -35,7 +33,6 @@ function ConsoleBlock({next, entries}: Props) {
           return (
             <ConsoleLine
               {...entry}
-              next={next}
               key={`${i}-${content}`}
             />
           )

@@ -1,17 +1,22 @@
 import React, { useEffect, useContext } from 'react';
-import { ConsoleContext } from '../Game';
+import { GameControllerContext } from '../GameController';
 import styles from './styles.module.css';
 
-interface IProps {
-  next(): void;
-}
+interface IProps {}
 
-function GameTitle({ next }: IProps) {
-  const { setIsConsoleEnabled } = useContext(ConsoleContext);
+function GameTitle({}: IProps) {
+  const { next, setIsConsoleEnabled, } = useContext(GameControllerContext);
+
   useEffect(() => {
-    setTimeout(() => { setIsConsoleEnabled(true); }, 8 * 1000);
-    setTimeout(() => { next(); }, 13 * 1000);
-  }, []);
+    document.addEventListener('keypress', handleKeyPress);
+    return () => document.removeEventListener('keypress', handleKeyPress);
+    function handleKeyPress(e) {
+      if (e.key === 'Enter') {
+        next();
+        setIsConsoleEnabled(true);
+      }
+    }
+  }, [next, setIsConsoleEnabled]);
 
   return (
     <div className={styles.GameTitle}>
@@ -21,4 +26,4 @@ function GameTitle({ next }: IProps) {
   )
 }
 
-export default GameTitle;
+export default React.memo(GameTitle);

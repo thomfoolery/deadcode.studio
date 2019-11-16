@@ -1,6 +1,6 @@
 import React, {ReactNode, useEffect} from 'react';
 
-import {ConsoleEntryTypes} from '../../reducers/console';
+import {ConsoleEntryTypes} from '../../reducers';
 
 import styles from './styles.module.css';
 
@@ -14,12 +14,24 @@ export interface Props {
 
 const noop = () => undefined;
 
+function split(content)  {
+  return content.split('').map((char, i) =>
+    (
+      <span
+        key={`${i}-${char}`}
+        className={styles.char}>
+        {char}
+      </span>
+    )
+  );
+}
+
 function ConsoleLine({
   type,
   children,
   next = noop,
-  content = ' ',
   options = {},
+  content = ' ',
 }: Props) {
   const { classNames = [] } = options;
   const isUserContent = content.startsWith('User:');
@@ -43,7 +55,7 @@ function ConsoleLine({
 
   return (
     <code className={classes.join(' ')}>
-      {children ? children : content}
+      {children ? children : split(content)}
     </code>
   );
 }

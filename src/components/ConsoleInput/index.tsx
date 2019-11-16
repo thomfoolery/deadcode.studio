@@ -1,16 +1,15 @@
-import React, {useEffect, useState, useRef} from 'react';
-import {ConsoleEntryTypes} from '../../reducers/console';
+import React, {useEffect, useState, useRef, useContext} from 'react';
+import {ConsoleEntryTypes} from '../../reducers';
 
 import ConsoleLine from '../ConsoleLine';
 
 import styles from './styles.module.css';
+import { GameControllerContext } from '../GameController';
 
-interface ConsoleInputProps {
-  next(cmd: string): void;
-  isConsoleFocused: boolean;
-};
+interface IProps {};
 
-const ConsoleInput = React.memo(({ next, isConsoleFocused }: ConsoleInputProps) => {
+const ConsoleInput = React.memo(({}: IProps) => {
+  const { next } = useContext(GameControllerContext);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
   const [selectionStart, setSelectionStart] = useState(0);
@@ -39,11 +38,12 @@ const ConsoleInput = React.memo(({ next, isConsoleFocused }: ConsoleInputProps) 
     if (e.type === 'keyup'
       && e.key === 'Enter'
       && !e.metaKey) {
+      const inputValue = inputRef.current.value.trim();
 
-      next(inputRef.current.value.trim());
       setSelectionStart(0);
       setSelectionEnd(0);
       setInputValue('');
+      next(inputValue);
     }
   }
 
@@ -51,11 +51,11 @@ const ConsoleInput = React.memo(({ next, isConsoleFocused }: ConsoleInputProps) 
     document.addEventListener('keydown', handleFocus);
     return () => document.removeEventListener('keydown', handleFocus);
     function handleFocus() {
-      if (isConsoleFocused && inputRef.current) {
+      if (inputRef.current) {
         inputRef.current.focus();
       }
     }
-  }, [isConsoleFocused]);
+  }, []);
 
   const start = selectionStart
   const end = selectionStart === selectionEnd ? selectionEnd + 1 : selectionEnd;

@@ -1,4 +1,4 @@
-import { ConsoleEntryTypes } from '../../reducers/console';
+import { ConsoleEntryTypes } from '../../reducers';
 
 export function parsePauseTag(value) {
   switch (value) {

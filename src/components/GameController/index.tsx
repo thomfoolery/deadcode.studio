@@ -9,33 +9,31 @@ import {
   stateReducer,
   defaultState,
   ActionTypes,
-} from '../../reducers/console';
+  IGameState,
+} from '../../reducers';
 
+import DevTools from '../DevTools';
 import { getEntry } from './utils';
 
 interface IProps {
   storyEngine: any;
-  children(next, state, dispatch): ReactElement | null;
+  children(state: IGameState): ReactElement | null;
 }
 
-interface IConsoleContext {
-  setIsConsoleEnabled(payload: boolean): void;
-  isConsoleEnabled: boolean;
+interface IGameControllerContext {
+  setIsConsoleEnabled(isEnabled: boolean): void;
+  next(index?: number | string): void;
+  storyEngine: any;
 }
 
-export const ConsoleContext = React.createContext<IConsoleContext>({
+export const GameControllerContext = React.createContext<IGameControllerContext>({
   setIsConsoleEnabled: () => null,
-  isConsoleEnabled: false,
+  next: () => null,
+  storyEngine: {},
 });
 
-function Game({ storyEngine, children }: IProps) {
+function GameController({ storyEngine, children }: IProps) {
   const [state, dispatch] = useReducer(stateReducer, defaultState);
-  const consoleContext: IConsoleContext = {
-    setIsConsoleEnabled: (payload) => {
-      dispatch({ type: ActionTypes.SetIsConsoleEnabled, payload });
-    },
-    isConsoleEnabled: state.isConsoleEnabled,
-  };
 
   const next = useCallback((input?: number | string) => {
     if (typeof input == 'number') {
@@ -57,7 +55,6 @@ function Game({ storyEngine, children }: IProps) {
         type: ActionTypes.ExecuteCommand,
         payload: input,
       });
-
     }
 
     if (state.consoleBuffer.length > 0) {
@@ -79,16 +76,22 @@ function Game({ storyEngine, children }: IProps) {
         });
       }
     }
-  }, [storyEngine])
+  }, [storyEngine]);
 
-  // start game
-  useEffect(() => { next(); }, [next]);
+  const gameControllerContext: IGameControllerContext = {
+    setIsConsoleEnabled: (payload) => {
+      dispatch({ type: ActionTypes.SetIsConsoleEnabled, payload });
+    },
+    storyEngine,
+    next,
+  };
 
   return (
-    <ConsoleContext.Provider value={consoleContext}>
-      {children(next, state, dispatch)}
-    </ConsoleContext.Provider>
+    <GameControllerContext.Provider value={gameControllerContext}>
+      <DevTools dispatch={dispatch}/>
+      {children(state)}
+    </GameControllerContext.Provider>
   );
 }
 
-export default React.memo(Game);
+export default React.memo(GameController);

@@ -1,4 +1,4 @@
-import { ConsoleEntryTypes } from './console';
+import { ConsoleEntryTypes } from '.';
 
 const COMMAND_LIST = [
   'ls',

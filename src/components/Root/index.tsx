@@ -1,29 +1,32 @@
 import React from 'react';
 
-import Game from '../Game';
+import GameController from '../GameController';
 import Console from '../Console';
+
+import styles from './styles.module.css';
+import { IGameState } from '../../reducers';
 
 interface IProps {
   storyEngine: any;
 }
 
-function Render(next, state) {
+const MAX_ENTRIES_LENGTH = 100;
+
+function Render(consoleState: IGameState) {
   return (
     <Console
-      next={next}
-      isConsoleFocused={true}
-      choices={state.choices}
-      entries={state.consoleEntries}
+      choices={consoleState.choices}
+      entries={consoleState.consoleEntries.slice(MAX_ENTRIES_LENGTH * -1)}
     />
   )
 }
 
 function Root({ storyEngine }: IProps) {
   return (
-    <div style={{ display: 'flex' }}>
-      <Game storyEngine={storyEngine}>
+    <div className={styles.Root}>
+      <GameController storyEngine={storyEngine}>
         {Render}
-      </Game>
+      </GameController>
     </div>
   );
 }

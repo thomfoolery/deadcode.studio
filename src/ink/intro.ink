@@ -1,8 +1,9 @@
+# author: Thoams Yuill
+# title: Dead Code
+
 -> Begin
 
 == Begin ==
-
--   $$PLAY GameTitle
 
 -   Incoming communication # COLOR yellow
 -   ...Signing keys # COLOR yellow

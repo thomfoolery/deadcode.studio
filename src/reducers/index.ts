@@ -1,5 +1,11 @@
 import { executeConsoleCommand } from './console-commands';
 
+export enum GameState {
+  GameTitle,
+  GamePaused,
+  GamePlaying,
+}
+
 export enum ActionTypes {
   SetIsConsoleEnabled = 'SetIsConsoleEnabled',
   ExecuteCommand = 'ExecuteCommand',
@@ -8,6 +14,7 @@ export enum ActionTypes {
   AdvanceBuffer = 'AdvanceBuffer',
   UpdateSelectedChoice = 'UpdateSelectedChoice',
   SetChoices = 'SetChoices',
+  Reset = 'Reset',
 }
 
 export interface IAction {
@@ -34,30 +41,27 @@ export interface IChoice {
   index: number;
 }
 
-export interface IConsoleState {
-  isConsoleEnabled: boolean;
-  choices: IChoice[] | null,
+export interface IGameState {
+  gameState: GameState;
+  choices: IChoice[],
   commandBuffer: string[];
   consoleBuffer: IConsoleEntry[];
   consoleEntries: IConsoleEntry[];
 }
 
-export const defaultState: IConsoleState = {
-  isConsoleEnabled: false,
-  choices: null,
+export const defaultState: IGameState = {
+  choices: [],
   commandBuffer: [],
   consoleBuffer: [],
   consoleEntries: [],
+  gameState: GameState.GameTitle,
 };
 
-export function stateReducer(state: IConsoleState, action: IAction) {
+export function stateReducer(state: IGameState, action: IAction) {
   switch(action.type) {
 
-    case ActionTypes.SetIsConsoleEnabled:
-      return {
-        ...state,
-        isConsoleEnabled: action.payload,
-      };
+    case ActionTypes.Reset:
+      return defaultState;
 
     case ActionTypes.ExecuteCommand:
       return executeConsoleCommand(state, action.payload);

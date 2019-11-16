@@ -11,8 +11,7 @@ import Root from './components/Root';
 import * as serviceWorker from './serviceWorker';
 
 const mountTarget = document.getElementById('root');
-
-const storyEngine = new Story(storyJson)
+const storyEngine = new Story(storyJson);
 
 ReactDOM.render(
   <BrowserRouter>

@@ -1,0 +1,46 @@
+.DevTools {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+
+  background-color: limegreen;
+  color: black;
+
+  padding: 1rem 2rem;
+
+  font-size: 1rem;
+
+  z-index: 99;
+}
+
+.DevTools :global(header) {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.DevTools :global(button) {
+  border: none;
+  padding: 1rem;
+  margin: 0 1rem;
+
+  font-size: 1rem;
+
+  background: green;
+  color: white;
+
+  cursor: pointer;
+
+  transition: opacity 50ms linear;
+}
+
+.DevTools :global(button:hover) {
+  opacity: 0.7;
+}
+
+.DevTools :global(pre) {
+  max-height: 20vh;
+  overflow-y: auto;
+}

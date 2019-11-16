@@ -1,14 +1,13 @@
-import React, { useRef, useEffect, useState } from 'react';
-import {ConsoleEntryTypes, IChoice} from '../../reducers/console';
+import React, { useRef, useEffect, useState, useContext } from 'react';
+import {ConsoleEntryTypes, IChoice} from '../../reducers';
 
 import ConsoleLine from '../ConsoleLine';
 
 import styles from './styles.module.css';
+import { GameControllerContext } from '../GameController';
 
 interface IProp {
   choices: IChoice[];
-  isConsoleFocused: Boolean;
-  next(index: number): void;
 }
 
 function cleanChoiceContent(text: string = '') {
@@ -19,9 +18,10 @@ function cleanChoiceContent(text: string = '') {
   return text.trim();
 }
 
-function ConsoleChoices({ next, choices, isConsoleFocused }: IProp) {
+function ConsoleChoices({ choices }: IProp) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
+  const { next } = useContext(GameControllerContext);
 
   const handleInputChange = (index: number) => () => {
     setSelectedIndex(index);
@@ -31,11 +31,11 @@ function ConsoleChoices({ next, choices, isConsoleFocused }: IProp) {
     document.addEventListener('keydown', handleFocus);
     return () => document.removeEventListener('keydown', handleFocus);
     function handleFocus() {
-      if (isConsoleFocused && inputRef.current) {
+      if (inputRef.current) {
         inputRef.current.focus();
       }
     }
-  }, [isConsoleFocused]);
+  }, []);
 
   const handleKeyUp = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
