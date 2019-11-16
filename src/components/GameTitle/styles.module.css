@@ -15,23 +15,28 @@
   white-space: pre;
 
   transform: translate3d(-50%,-50%,0);
+
+  user-select: none;
 }
 
 .GameTitle :global(small) {
+    display: block;
+    line-height: 1em;
+
     position: absolute;
     left: 50%;
     top: 50%;
     transform: translate3d(-50%,-50%,0);
 
-    font-size: 2rem;
+    font-size: 5rem;
     animation: cta 3s ease-in-out both 8s;
 }
 
-.GameTitle > :global( *) {
+.GameTitle > :global(div) {
   animation: title 10s ease-in-out both;
 }
 
-.GameTitle > :global(* + *) {
+.GameTitle > :global(div + div) {
   animation-delay: 200ms;
 }
 

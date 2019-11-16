@@ -27,15 +27,15 @@
 
 -   Port69: haha # PAUSE long
 -   Port69: were makin a run on the GIBSON TONIGHT!
--   Port69: duh  # PAUSE long
+-   Port69: come on mate  # PAUSE long
 -   Port69: it was your plan all along
 
 *   User: who dis?
-*   User: my idea?
+*   User: my plan?
 *   User: make a run on the wat?
 
 -   Port69: meet us at DMs dbag.server 
--   Port69: the address is in the glovebox
+-   Port69: the address is in yer glovebox
 
 -   $$BLANK
 

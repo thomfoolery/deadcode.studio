@@ -1,4 +1,4 @@
-import React, {ReactNode, useEffect, useContext} from 'react';
+import React, {ReactNode, useState, useEffect, useContext} from 'react';
 import { ConsoleEntryTypes } from '../../reducers/console';
 
 import { GameControllerContext } from '../GameController';
@@ -12,24 +12,13 @@ export interface Props {
   options?: any;
 };
 
-function split(content)  {
-  return content.split('').map((char, i) =>
-    (
-      <span
-        key={`${i}-${char}`}
-        className={styles.char}>
-        {char}
-      </span>
-    )
-  );
-}
-
 function ConsoleLine({
   type,
   children,
   options = {},
   content = ' ',
 }: Props) {
+  const [renderedLength, setRenderedLength] = useState(0)
   const { next } = useContext(GameControllerContext);
 
   const { classNames = [] } = options;
@@ -48,13 +37,22 @@ function ConsoleLine({
 
   useEffect(() => {
     if (type !== ConsoleEntryTypes.Command) {
-      setTimeout(next, options.delay || 0);
+      if (renderedLength === content.length) {
+        setTimeout(next, options.delay || 0);
+      }
+      else {
+        setTimeout(() => setRenderedLength(renderedLength + 1), 5);
+      }
     }
-  }, []);
+  }, [renderedLength]);
 
   return (
     <code className={classes.join(' ')}>
-      {children ? children : split(content)}
+      {
+        !children ?
+          content.substr(0, renderedLength) :
+          children
+      }
     </code>
   );
 }

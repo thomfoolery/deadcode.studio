@@ -17,7 +17,7 @@ import Console from '../Console';
 import GameTitle from '../GameTitle';
 
 import { getEntry } from './utils';
-import { storyEngine } from './ink-story';
+import { storyEngine } from '../../ink/engine';
 import { GameState } from '../../reducers/game';
 
 const MAX_ENTRIES_LENGTH = 100;

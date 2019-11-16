@@ -2,7 +2,7 @@
 
 @font-face {
   font-family: console;
-  src: url(/amstradpc1512-2y.woff2) format('woff2'); /* Safari, Android, iOS */
+  src: url(/unscii.woff) format('woff'); /* Safari, Android, iOS */
   font-weight: normal;
   font-style: normal;
 }
@@ -50,14 +50,7 @@ body > * {
 }
 
 code {
-  font-family:
-    console,
-    source-code-pro,
-    Menlo,
-    Monaco,
-    Consolas,
-    "Courier New",
-    monospace;
+  font-family: console, monospace;
 }
 
 #root {

@@ -12,4 +12,5 @@
 
   color: limegreen;
   overflow: hidden;
+  user-select: none;
 }

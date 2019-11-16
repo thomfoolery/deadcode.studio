@@ -13,11 +13,11 @@ function GameTitle() {
     document.addEventListener('keypress', handleKeyPress);
     return () => document.removeEventListener('keypress', handleKeyPress);
     function handleKeyPress() {
+      setTimeout(next, 2000);
       dispatch({
         type: GameActionTypes.SetGameState,
         payload: GameState.GamePlaying,
       });
-      next();
     }
   }, []);
 
@@ -25,7 +25,10 @@ function GameTitle() {
     <div className={styles.GameTitle}>
       <div>DEAD</div>
       <div>CODE</div>
-      <small>Press ENTER</small>
+      <small>
+        Press<br/>
+        ENTER
+      </small>
     </div>
   )
 }
