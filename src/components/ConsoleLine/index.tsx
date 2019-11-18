@@ -1,7 +1,6 @@
 import React, {ReactNode, useState, useEffect, useContext} from 'react';
 import { ConsoleEntryTypes } from '../../reducers/console';
-
-import { GameControllerContext } from '../GameController';
+import { GameContext } from '../../contexts/game';
 
 import styles from './styles.module.css';
 
@@ -18,8 +17,8 @@ function ConsoleLine({
   options = {},
   content = ' ',
 }: Props) {
-  const [renderedLength, setRenderedLength] = useState(0)
-  const { next } = useContext(GameControllerContext);
+  const [renderLength, setRenderLength] = useState(0);
+  const { next } = useContext(GameContext);
 
   const { classNames = [] } = options;
   const isUserContent = content.startsWith('User:');
@@ -37,20 +36,24 @@ function ConsoleLine({
 
   useEffect(() => {
     if (type !== ConsoleEntryTypes.Command) {
-      if (renderedLength === content.length) {
+      if (renderLength === content.length) {
         setTimeout(next, options.delay || 0);
       }
       else {
-        setTimeout(() => setRenderedLength(renderedLength + 1), 5);
+        setTimeout(() => setRenderLength(renderLength + 1), 5);
       }
+    } else {
+      setRenderLength(
+        type === ConsoleEntryTypes.Command ? content.length : 0
+      );
     }
-  }, [renderedLength]);
+  }, [renderLength]);
 
   return (
     <code className={classes.join(' ')}>
       {
         !children ?
-          content.substr(0, renderedLength) :
+          content.substr(0, renderLength) :
           children
       }
     </code>

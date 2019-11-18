@@ -14,7 +14,7 @@ export interface Props {
 
 function ConsoleBlock({entries}: Props) {
   return (
-    <>
+    <div>
       {
         entries && entries.map((entry, i) => {
           const { type, content } = entry;
@@ -38,7 +38,7 @@ function ConsoleBlock({entries}: Props) {
           )
         })
       }
-    </>
+    </div>
   )
 }
 

@@ -1,16 +1,25 @@
 .Console {
-  position: relative;
   display: flex;
-  flex: 1 1 50%;
   flex-direction: column;
-  justify-content: flex-end;
-
-  font-size: 2vw;
-
-  max-height: calc(100vh - 2em);
-  padding: 1em;
+  position: relative;
+  font-size: 3vw;
 
   color: limegreen;
   overflow: hidden;
   user-select: none;
+}
+
+.ConsoleBuffer {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+}
+
+.ConsoleInput {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }

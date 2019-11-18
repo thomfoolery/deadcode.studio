@@ -1,4 +1,4 @@
-import { executeConsoleCommand } from './console-commands';
+import { executeConsoleCommand } from '../commands';
 import { IAction } from './';
 
 export enum ConsoleActionTypes {
@@ -25,27 +25,20 @@ export interface IConsoleEntry {
   tags?: any;
 }
 
-export interface IChoice {
+export interface IConsoleChoice {
   isSelected: boolean;
   content: string;
   index: number;
 }
 
-export interface IConsoleState {
-  choices: IChoice[],
-  commandBuffer: string[];
-  consoleBuffer: IConsoleEntry[];
-  consoleEntries: IConsoleEntry[];
-}
-
-export const defaultState: IConsoleState = {
-  choices: [],
+export const defaultState: any = {
   commandBuffer: [],
   consoleBuffer: [],
+  consoleChoices: [],
   consoleEntries: [],
 };
 
-export function stateReducer(state: IConsoleState, action: IAction) {
+export function stateReducer(state: any = defaultState, action: IAction) {
   switch(action.type) {
 
     case ConsoleActionTypes.Reset:
@@ -90,7 +83,7 @@ export function stateReducer(state: IConsoleState, action: IAction) {
     case ConsoleActionTypes.SetChoices:
         return {
           ...state,
-          choices: action.payload,
+          consoleChoices: action.payload,
         };
 
     default:

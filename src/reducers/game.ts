@@ -1,30 +1,37 @@
+import gameServers from '../content/servers';
 import { IAction } from './';
 
 export enum GameState {
-  GameTitle,
-  GamePaused,
-  GamePlaying,
+  Title,
+  Playing,
 }
 
 export enum GameActionTypes {
-  SetGameState = 'SetIsConsoleEnabled',
+  SetGameState = 'SetGameState',
+  Start = 'Start',
 }
 
-export interface IGameState {
-  state: GameState;
-}
-
-export const defaultState: IGameState = {
-  state: GameState.GameTitle,
+export const defaultState: any = {
+  gameState: GameState.Title,
+  gameServer: null,
+  gameServerPwd: [],
 };
 
-export function stateReducer(state: IGameState, action: IAction) {
+export function stateReducer(state: any = defaultState, action: IAction) {
   switch(action.type) {
 
     case GameActionTypes.SetGameState:
       return {
         ...state,
-        state: action.payload,
+        gameState: action.payload,
+      };
+
+    case GameActionTypes.Start:
+      return {
+        ...state,
+        gameState: GameState.Playing,
+        gameServer: gameServers.home,
+        gameServerPwd: [],
       };
 
     default:

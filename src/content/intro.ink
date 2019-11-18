@@ -5,9 +5,9 @@
 
 == Begin ==
 
--   Incoming communication # COLOR yellow
--   ...Signing keys # COLOR yellow
--   ...Decrypting # COLOR yellow # PAUSE long
+-   Incoming communication... # PAUSE short # COLOR yellow
+-   ...Signing keys # PAUSE short # COLOR yellow
+-   ...Decrypting # PAUSE medium # COLOR yellow
 
 -   $$BLANK
 
@@ -15,8 +15,11 @@
 -   Port69: r u ready!!!
 
 *   User: huh?
+-   - Port69: com on m8?
 *   User: who dis?
+-   - Port69: you got to be joking?
 *   User: ready 4 wat?
+-   - Port69: ha?
 
 -   Port69: r u goin 2 join us or wat mate?
 -   Port69: or r u 2 chimken shit?

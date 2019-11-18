@@ -32,6 +32,10 @@
     animation: cta 3s ease-in-out both 8s;
 }
 
+.GameTitle :global(small span) {
+  color: yellow;
+}
+
 .GameTitle > :global(div) {
   animation: title 10s ease-in-out both;
 }

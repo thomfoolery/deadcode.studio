@@ -1,15 +1,14 @@
 import React, { useEffect, useState, useRef, useContext } from 'react';
 import { ConsoleEntryTypes } from '../../reducers/console';
+import { GameContext } from '../../contexts/game';
 
 import ConsoleLine from '../ConsoleLine';
 
 import styles from './styles.module.css';
-import { GameControllerContext } from '../GameController';
-
 // interface IProps {};
 
 const ConsoleInput = React.memo(() => {
-  const { next } = useContext(GameControllerContext);
+  const { next } = useContext(GameContext);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
   const [selectionStart, setSelectionStart] = useState(0);

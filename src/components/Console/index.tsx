@@ -8,24 +8,26 @@ import ConsoleChoices from '../ConsoleChoices';
 import styles from './styles.module.css';
 
 export interface Props {
-  choices: any[];
+  consoleChoices: any[];
   entries?: IConsoleEntry[];
 };
 
 function Console({
-  choices,
+  consoleChoices,
   entries,
 }: Props) {
   return (
     <div className={styles.Console}>
-
-      <ConsoleBlock
-        entries={entries}/>
-      {
-          choices.length > 0 ?
-          <ConsoleChoices choices={choices} /> :
-          <ConsoleInput />
-      }
+      <div className={styles.ConsoleBuffer}>
+        <ConsoleBlock entries={entries}/>
+      </div>
+      <div className={styles.ConsoleInput}>
+        {
+          consoleChoices.length > 0 ?
+            <ConsoleChoices consoleChoices={consoleChoices} /> :
+            <ConsoleInput />
+        }
+      </div>
     </div>
   )
 }

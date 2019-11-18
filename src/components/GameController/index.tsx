@@ -1,12 +1,16 @@
-
-
 import React, {
+  useMemo,
   useReducer,
   useCallback,
 } from 'react';
 
 import {
-  IAction,
+  GameContext,
+  IGameContext,
+} from '../../contexts/game';
+
+import {
+  GameState,
   stateReducer,
   defaultState,
   ConsoleActionTypes,
@@ -17,29 +21,30 @@ import Console from '../Console';
 import GameTitle from '../GameTitle';
 
 import { getEntry } from './utils';
-import { storyEngine } from '../../ink/engine';
-import { GameState } from '../../reducers/game';
+import { storyEngine } from '../../content/engine';
 
 const MAX_ENTRIES_LENGTH = 100;
 
-interface IGameControllerContext {
-  state: any;
-  storyEngine: any;
-  dispatch(action: IAction): void;
-  next(index?: number | string): void;
+interface IProps {
+  debug: boolean;
 }
 
-export const GameControllerContext = React.createContext<IGameControllerContext>({
-  storyEngine: {},
-  dispatch: () => null,
-  next: () => null,
-  state: {},
-});
-
-function GameController() {
+function GameController({ debug }: IProps) {
   const [state, dispatch] = useReducer(stateReducer, defaultState);
 
   const next = useCallback((input?: number | string) => {
+    // DEBUG
+    if (debug) {
+      if (input) {
+        dispatch({
+          type: ConsoleActionTypes.ExecuteCommand,
+          payload: input,
+        });
+      }
+      return;
+    }
+
+    // INPUT NUMBER
     if (typeof input == 'number') {
       storyEngine.ChooseChoiceIndex(input);
       dispatch({
@@ -48,6 +53,7 @@ function GameController() {
       });
     }
 
+    // INPUT STRING
     if (typeof input === 'string') {
       if (
         input === '' ||
@@ -61,52 +67,55 @@ function GameController() {
       });
     }
 
-    if (state.console.consoleBuffer.length > 0) {
+    // IF THERE ARE LINES IN THE HOPPER
+    if (state.consoleBuffer.length > 0) {
       dispatch({ type: ConsoleActionTypes.AdvanceBuffer });
     }
+    // ELSE
     else {
       const entry = getEntry(storyEngine);
 
-      if (entry) {
+      // IF THERE ARE ANY CHOICES
+      if ('consoleChoices' in entry) {
+        dispatch({
+          type: ConsoleActionTypes.SetChoices,
+          payload: storyEngine.currentChoices,
+        });
+
+      }
+      // TRY TO FILL THE HOPPER
+      else {
         dispatch({
           type: ConsoleActionTypes.AppendToBuffer,
           payload: [entry],
         });
       }
-      else if (
-        state.console.choices.length === 0 &&
-        storyEngine.currentChoices.length > 0
-      ) {
-        dispatch({
-          type: ConsoleActionTypes.SetChoices,
-          payload: storyEngine.currentChoices,
-        });
-      }
     }
-  }, [storyEngine]);
+  }, [state, dispatch]);
 
-  const gameControllerContext: IGameControllerContext = {
+  const gameContext: IGameContext = useMemo(() => ({
     storyEngine,
     dispatch,
+    debug,
     state,
     next,
-  };
+  }), [storyEngine, dispatch, debug, state, next]);
 
   return (
-    <GameControllerContext.Provider value={gameControllerContext}>
+    <GameContext.Provider value={gameContext}>
       <DevTools/>
-      {
-       state.game.state === GameState.GameTitle &&
+      {/* GAME TITLE */
+       state.gameState === GameState.Title &&
         <GameTitle/>
       }
-      {
-        state.game.state === GameState.GamePlaying &&
+      {/* GAME PLAYING */
+        state.gameState === GameState.Playing &&
         <Console
-          choices={state.console.choices}
-          entries={state.console.consoleEntries.slice(MAX_ENTRIES_LENGTH * -1)}
+          consoleChoices={state.consoleChoices}
+          entries={state.consoleEntries.slice(MAX_ENTRIES_LENGTH * -1)}
         />
       }
-    </GameControllerContext.Provider>
+    </GameContext.Provider>
   );
 }
 

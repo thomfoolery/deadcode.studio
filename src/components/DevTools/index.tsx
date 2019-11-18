@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { ConsoleActionTypes } from '../../reducers';
+import { GameContext } from '../../contexts/game';
 
 import styles from './styles.module.css';
-import { ConsoleActionTypes } from '../../reducers';
-import { GameControllerContext } from '../GameController';
 
 function DevTools() {
-  const { next, state, dispatch, storyEngine } = useContext(GameControllerContext);
+  const { next, dispatch, storyEngine } = useContext(GameContext);
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
@@ -56,7 +56,7 @@ function DevTools() {
         <pre>
           <code>
             {/* { JSON.stringify(JSON.parse(storyEngine.state.toJson()), null, 2) } */}
-            { JSON.stringify(state, null, 2) }
+            {/* { JSON.stringify(state, null, 2) } */}
           </code>
         </pre>
       </div>

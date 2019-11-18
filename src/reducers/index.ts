@@ -1,36 +1,35 @@
 import {
-  IConsoleState,
   stateReducer as consoleStateReducer,
   defaultState as consoleDefaultState,
 } from './console';
 
 import {
-  IGameState,
   stateReducer as gameStateReducer,
   defaultState as gameDefaultState,
 } from './game';
 
-export { GameActionTypes } from './game';
-export { ConsoleActionTypes } from './console';
+export {
+  ConsoleActionTypes,
+} from './console';
+
+export {
+  GameState,
+  GameActionTypes,
+} from './game';
 
 export interface IAction {
   type: any;
   payload?: any;
 }
 
-export interface IState {
-  game: IGameState;
-  console: IConsoleState;
-}
-
-export const defaultState: IState = {
-  game: gameDefaultState,
-  console: consoleDefaultState,
+export const defaultState: any = {
+  ...gameDefaultState,
+  ...consoleDefaultState,
 };
 
-export function stateReducer(state: IState, action: IAction) {
-  return {
-    game: gameStateReducer(state.game, action),
-    console: consoleStateReducer(state.console, action),
-  }
+export function stateReducer(state: any, action: IAction) {
+  const gameState = gameStateReducer(state, action);
+  const finalState = consoleStateReducer(gameState, action);
+
+  return finalState;
 }

@@ -1,24 +1,31 @@
 import { ConsoleEntryTypes } from '../../reducers/console';
 
-export function parsePauseTag(value) {
+export function parsePauseTag(value: string) : number | void {
   switch (value) {
+    case '0':
     case 'none':
       return 0;
+    case '1000':
     case 'short':
       return 1000;
+    case '2000':
     case 'medium':
       return 2 * 1000;
+    case '3000':
     case 'long':
       return 3 * 1000;
+    case '5000':
     case 'extra-long':
       return 5 * 1000;
+    case '10000':
     case 'dramatic':
       return 10 * 1000;
     default:
       Number(value);
   };
 }
-export function getOptionsFromTags(tags, content) {
+
+export function getOptionsFromTags(tags: any, content: string) : any {
   const fallbackRandomDelay = 1000 + Math.random() * 1000;
   const delay = !content.startsWith('$$BLANK') ?
     tags.reduce((acc, tag) => {
@@ -55,7 +62,18 @@ export function getOptionsFromTags(tags, content) {
   };
 }
 
-export function getEntry(storyEngine) {
+export interface IStoryChoices {
+  consoleChoices: any[],
+}
+
+export interface IStoryEntry {
+  type: ConsoleEntryTypes;
+  tags: any[],
+  options: any,
+  content: string,
+}
+
+export function getEntry(storyEngine) : IStoryEntry | IStoryChoices {
   if (storyEngine.canContinue) {
     const content = storyEngine.Continue();
     const type = content.startsWith('$$PLAY') ?
@@ -70,25 +88,7 @@ export function getEntry(storyEngine) {
     };
   }
 
-  return null;
+  return {
+    consoleChoices: storyEngine.currentChoices,
+  };
 }
-
-// export function getEntries(storyEngine) {
-//   const entries = [];
-
-//   while (storyEngine.canContinue) {
-//     const content = storyEngine.Continue();
-//     const type = content.startsWith('$$PLAY') ?
-//       ConsoleEntryTypes.Special :
-//       ConsoleEntryTypes.Output
-
-//     entries.push({
-//       type,
-//       tags: storyEngine.currentTags,
-//       options: getOptionsFromTags(storyEngine.currentTags, content),
-//       content: !content.startsWith('$$BLANK') ? content : ' ',
-//     });
-//   }
-
-//   return entries;
-// }

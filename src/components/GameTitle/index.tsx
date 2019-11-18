@@ -1,23 +1,18 @@
 import React, { useEffect, useContext } from 'react';
-
-import { GameActionTypes} from '../../reducers';
-import { GameState } from '../../reducers/game';
-import { GameControllerContext } from '../GameController';
+import { GameContext } from '../../contexts/game';
+import { GameActionTypes } from '../../reducers';
 
 import styles from './styles.module.css';
 
 function GameTitle() {
-  const { next, dispatch } = useContext(GameControllerContext);
+  const { next, dispatch, debug = false } = useContext(GameContext);
 
   useEffect(() => {
     document.addEventListener('keypress', handleKeyPress);
     return () => document.removeEventListener('keypress', handleKeyPress);
     function handleKeyPress() {
-      setTimeout(next, 2000);
-      dispatch({
-        type: GameActionTypes.SetGameState,
-        payload: GameState.GamePlaying,
-      });
+      if (!debug) { setTimeout(next, 2000); }
+      dispatch({ type: GameActionTypes.Start });
     }
   }, []);
 
@@ -26,8 +21,8 @@ function GameTitle() {
       <div>DEAD</div>
       <div>CODE</div>
       <small>
-        Press<br/>
-        ENTER
+        to begin<br/>
+        press <span>ENTER</span>
       </small>
     </div>
   )
